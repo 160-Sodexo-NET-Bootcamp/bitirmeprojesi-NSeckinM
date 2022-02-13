@@ -44,6 +44,9 @@ namespace WebAPI
             //Identity
             services.AddIdentity<User,IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
+            //Dependency Injection for Infrastructure
+            services.AddInfraServices();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

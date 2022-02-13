@@ -6,8 +6,6 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
-    <Folder Include="UOW\" />
-    <Folder Include="Repositories\" />
   </ItemGroup>
 
   <ItemGroup>
