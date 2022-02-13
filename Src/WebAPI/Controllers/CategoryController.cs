@@ -1,35 +1,32 @@
-﻿using ApplicationCore.Entities;
-using ApplicationCore.Interfaces.UnitOfWork;
+﻿using ApplicationCore.Interfaces.UnitOfWork;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebAPI.DTOs.BrandDtos;
+using WebAPI.DTOs.CategoryDtos;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/v1/Brands")]
+    [Route("api/v1/Categories")]
     [ApiController]
-    public class BrandController : ControllerBase
+    public class CategoryController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
-
-        public BrandController(IUnitOfWork unitOfWork)
+        public CategoryController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
-        //You can use the HttpGet request to take all Brand list
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Ok(await _unitOfWork.BrandService.GetAllBrands());
+            return Ok(await _unitOfWork.CategoryService.GetAllCategory());
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateBrand([FromBody] CreateBrandDto brandDto)
+        public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDto categoryDto)
         {
 
             if (!ModelState.IsValid)
@@ -37,17 +34,17 @@ namespace WebAPI.Controllers
                 return BadRequest("Invalid data.");
             }
 
-            await _unitOfWork.BrandService.AddBrand(brandDto.BrandName);
+            await _unitOfWork.CategoryService.AddCategory(categoryDto.CategoryName);
             _unitOfWork.Complete();
 
             return Ok();
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBrand(int id)
+        public async Task<IActionResult> DeleteCategory(int id)
         {
-           await _unitOfWork.BrandService.DeleteBrand(id);
-           _unitOfWork.Complete();
+            await _unitOfWork.CategoryService.DeleteCategory(id);
+            _unitOfWork.Complete();
             return NoContent();
         }
 

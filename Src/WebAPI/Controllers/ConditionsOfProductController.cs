@@ -1,53 +1,49 @@
-﻿using ApplicationCore.Entities;
-using ApplicationCore.Interfaces.UnitOfWork;
+﻿using ApplicationCore.Interfaces.UnitOfWork;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebAPI.DTOs.BrandDtos;
+using WebAPI.DTOs.ConditionsOfProductDtos;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/v1/Brands")]
+    [Route("api/v1/Conditions")]
     [ApiController]
-    public class BrandController : ControllerBase
+    public class ConditionsOfProductController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public BrandController(IUnitOfWork unitOfWork)
+        public ConditionsOfProductController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
-        //You can use the HttpGet request to take all Brand list
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Ok(await _unitOfWork.BrandService.GetAllBrands());
+            return Ok(await _unitOfWork.ConditionsOfProductService.GetAllConditions());
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateBrand([FromBody] CreateBrandDto brandDto)
+        public async Task<IActionResult> CreateCondition([FromBody] CreateConditionDto conditionDto)
         {
-
             if (!ModelState.IsValid)
             {
                 return BadRequest("Invalid data.");
             }
 
-            await _unitOfWork.BrandService.AddBrand(brandDto.BrandName);
+            await _unitOfWork.ConditionsOfProductService.AddCondition(conditionDto.Condition);
             _unitOfWork.Complete();
-
             return Ok();
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBrand(int id)
+        public async Task<IActionResult> DeleteCondition(int id)
         {
-           await _unitOfWork.BrandService.DeleteBrand(id);
-           _unitOfWork.Complete();
+            await _unitOfWork.ConditionsOfProductService.DeleteCondition(id);
+            _unitOfWork.Complete();
             return NoContent();
         }
 
