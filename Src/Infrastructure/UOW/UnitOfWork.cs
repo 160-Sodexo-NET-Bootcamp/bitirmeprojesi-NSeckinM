@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.UOW
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : IUnitOfWork 
     {
         private readonly ApplicationDbContext _dbContext;
         public IBrandService BrandService { get; }

@@ -1,5 +1,6 @@
 ﻿using ApplicationCore.Entities;
 using ApplicationCore.Interfaces.UnitOfWork;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -23,12 +24,13 @@ namespace WebAPI.Controllers
 
         //You can use the HttpGet request to take all Brand list
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Get()
         {
             return Ok(await _unitOfWork.BrandService.GetAllBrands());
         }
-
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> CreateBrand([FromBody] CreateBrandDto brandDto)
         {
 
@@ -42,8 +44,8 @@ namespace WebAPI.Controllers
 
             return Ok();
         }
-
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteBrand(int id)
         {
            await _unitOfWork.BrandService.DeleteBrand(id);

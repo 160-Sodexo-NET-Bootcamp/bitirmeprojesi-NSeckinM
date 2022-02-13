@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Interfaces.UnitOfWork;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -21,12 +22,14 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Get()
         {
             return Ok(await _unitOfWork.ColorService.GetAllColor());
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> CreateBrand([FromBody] CreateColorDto ColorDto)
         {
 
@@ -41,6 +44,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteColor(int id)
         {
             await _unitOfWork.ColorService.DeleteColor(id);

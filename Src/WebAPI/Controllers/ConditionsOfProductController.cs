@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Interfaces.UnitOfWork;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -21,12 +22,14 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Get()
         {
             return Ok(await _unitOfWork.ConditionsOfProductService.GetAllConditions());
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> CreateCondition([FromBody] CreateConditionDto conditionDto)
         {
             if (!ModelState.IsValid)
@@ -40,6 +43,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteCondition(int id)
         {
             await _unitOfWork.ConditionsOfProductService.DeleteCondition(id);

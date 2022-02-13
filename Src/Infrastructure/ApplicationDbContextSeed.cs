@@ -28,7 +28,7 @@ namespace Infrastructure
 
             if (!await userManager.Users.AnyAsync(x => x.Email == "seckin@xyz.com"))
             {
-                User u1 = new User()
+                User u1 = new()
                 {
                     NickName = "unstoppable",
                     FullName = "seckinmantar",

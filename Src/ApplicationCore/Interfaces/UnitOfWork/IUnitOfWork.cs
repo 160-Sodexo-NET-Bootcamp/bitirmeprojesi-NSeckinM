@@ -10,7 +10,6 @@ namespace ApplicationCore.Interfaces.UnitOfWork
     public interface IUnitOfWork : IDisposable
     {
         IBrandService BrandService { get; }
-
         ICategoryService CategoryService { get; }
         IColorService ColorService { get; }
         IConditionsOfProductService ConditionsOfProductService { get; }
