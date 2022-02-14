@@ -17,8 +17,9 @@ namespace Infrastructure.UOW
         public IConditionsOfProductService ConditionsOfProductService { get; }
         public IOfferService OfferService { get; }
         public IProductService ProductService { get; }
+        public IMailService MailService { get; }
 
-        public UnitOfWork(ApplicationDbContext dbContext, IBrandService brandService, ICategoryService categoryService, IColorService colorService, IConditionsOfProductService conditionsOfProductService, IOfferService offerService, IProductService productService)
+        public UnitOfWork(ApplicationDbContext dbContext, IBrandService brandService, ICategoryService categoryService, IColorService colorService, IConditionsOfProductService conditionsOfProductService, IOfferService offerService, IProductService productService,IMailService mailService )
         {
             _dbContext = dbContext;
             BrandService = brandService;
@@ -27,6 +28,7 @@ namespace Infrastructure.UOW
             ConditionsOfProductService = conditionsOfProductService;
             OfferService = offerService;
             ProductService = productService;
+            MailService = mailService;
         }
         public int Complete()
         {

@@ -1,3 +1,4 @@
+using Hangfire;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -17,6 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebAPI.HangFireJobs;
 
 namespace WebAPI
 {
@@ -43,6 +45,9 @@ namespace WebAPI
 
             //Database Connection
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ApplicationDbContext")));
+
+            services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetConnectionString("HangfireConnection")));
+            services.AddHangfireServer();
 
             //Identity
             services.AddIdentity<User,IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
@@ -107,6 +112,7 @@ namespace WebAPI
             }
 
             app.UseHttpsRedirection();
+            app.UseHangfireDashboard();
 
             app.UseRouting();
             app.UseAuthentication();
@@ -116,6 +122,12 @@ namespace WebAPI
             {
                 endpoints.MapControllers();
             });
+
+            RecurringJob.AddOrUpdate<AutoMailSender>(x => x.SendMail(), Cron.MinuteInterval(2));
+
+
+
+
         }
     }
 }

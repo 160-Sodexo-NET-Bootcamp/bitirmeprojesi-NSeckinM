@@ -16,12 +16,14 @@ namespace WebAPI.Controllers
     [ApiController]
     public class MemberOperationController : ControllerBase
     {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IConfiguration _configuration;
 
-        public MemberOperationController(UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration configuration)
+        public MemberOperationController(IUnitOfWork unitOfWork, UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration configuration)
         {
+            _unitOfWork = unitOfWork;
             _userManager = userManager;
             _signInManager = signInManager;
             _configuration = configuration;
@@ -44,14 +46,15 @@ namespace WebAPI.Controllers
                     EmailConfirmed = true,
                     RoleType = true
                 };
-
                 var registerUser = await _userManager.CreateAsync(user, memberDto.Password);
                 if (registerUser.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(user, "member");
                     await _signInManager.SignInAsync(user, isPersistent: false);
+                    await _unitOfWork.MailService.AddMail(memberDto.Email);
                     var user1 = await _userManager.FindByNameAsync(user.UserName);
                     var token = JwtGenerator.Generate(user1, _configuration);
+                    _unitOfWork.Complete();
                     return Ok(token);
                 }
             }

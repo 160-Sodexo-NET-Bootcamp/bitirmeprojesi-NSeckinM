@@ -22,6 +22,7 @@ namespace Infrastructure
         public DbSet<Color> Colors { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Brand> Brands { get; set; }
+        public DbSet<Mail> Mails { get; set; }
 
 
     }

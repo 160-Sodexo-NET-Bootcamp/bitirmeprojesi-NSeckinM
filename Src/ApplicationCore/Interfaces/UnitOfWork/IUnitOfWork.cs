@@ -15,7 +15,7 @@ namespace ApplicationCore.Interfaces.UnitOfWork
         IConditionsOfProductService ConditionsOfProductService { get; }
         IOfferService OfferService { get; }
         IProductService ProductService { get; }
-
+        IMailService MailService { get; }
         int Complete();
 
     }

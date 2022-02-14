@@ -79,6 +79,30 @@ namespace Infrastructure.Migrations
                     b.ToTable("ConditionsOfProducts");
                 });
 
+            modelBuilder.Entity("ApplicationCore.Entities.Mail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CoutOfTry")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Creationtime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EmailAdress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EmailStatus")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Mails");
+                });
+
             modelBuilder.Entity("ApplicationCore.Entities.Offer", b =>
                 {
                     b.Property<int>("Id")

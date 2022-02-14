@@ -5,11 +5,11 @@ VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{A1CAF4BC-D26F-4742-9663-15804831D401}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationCore", "Src\ApplicationCore\ApplicationCore.csproj", "{EA5D32D6-7ACA-486B-9369-FEFC208DCB4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApplicationCore", "Src\ApplicationCore\ApplicationCore.csproj", "{EA5D32D6-7ACA-486B-9369-FEFC208DCB4B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Src\Infrastructure\Infrastructure.csproj", "{F211C527-C244-4EE7-A40D-B4FD7BC60F45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Src\Infrastructure\Infrastructure.csproj", "{F211C527-C244-4EE7-A40D-B4FD7BC60F45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI", "Src\WebAPI\WebAPI.csproj", "{FE6AC7DD-8C90-4376-970B-E0F352640AA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "Src\WebAPI\WebAPI.csproj", "{FE6AC7DD-8C90-4376-970B-E0F352640AA7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

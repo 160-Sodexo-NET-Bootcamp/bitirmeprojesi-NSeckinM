@@ -25,6 +25,7 @@ namespace Infrastructure
             serviceCollection.AddScoped<IConditionsOfProductService, ConditionsOfProductService>();
             serviceCollection.AddScoped<IOfferService, OfferService>();
             serviceCollection.AddScoped<IProductService, ProductService>();
+            serviceCollection.AddScoped<IMailService, MailService>();
             serviceCollection.AddScoped<IUnitOfWork, UnitOfWork>();
         }
         
