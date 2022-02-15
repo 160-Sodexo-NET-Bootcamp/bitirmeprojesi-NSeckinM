@@ -1,4 +1,6 @@
-﻿using ApplicationCore.Interfaces.UnitOfWork;
+﻿using ApplicationCore.Entities;
+using ApplicationCore.Enum;
+using ApplicationCore.Interfaces.UnitOfWork;
 using Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -7,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using WebAPI.DTOs.MemberDtos;
 
@@ -51,33 +54,62 @@ namespace WebAPI.Controllers
                 {
                     await _userManager.AddToRoleAsync(user, "member");
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    await _unitOfWork.MailService.AddMail(memberDto.Email);
+                    Mail mail = new()
+                    {
+                        EmailAdress = user.Email,
+                        EmailStatus = EmailStatus.WelcomeMail
+                    };
+                    await _unitOfWork.MailService.AddMail(mail);
                     var user1 = await _userManager.FindByNameAsync(user.UserName);
                     var token = JwtGenerator.Generate(user1, _configuration);
                     _unitOfWork.Complete();
-                    return Ok(token);
+                    return Ok("Kayıt işlemi başarılı:" + token);
                 }
             }
-            return BadRequest(ModelState);
+            return BadRequest("Kayıt işlemi başarısız geçersiz bilgiler girdiniz.");
 
         }
 
+        //string userEmail = User.FindFirst(ClaimTypes.Email).Value;
+        //string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
         [HttpPost]
         [Route("Login")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
-            if (ModelState.IsValid)
+            var user = await _userManager.FindByNameAsync(loginDto.UserName);
+
+            if (user.AccessFailedCount < 3)
             {
-                var loginResult = await _signInManager.PasswordSignInAsync(loginDto.UserName, loginDto.Password, true, false);
-                if (!loginResult.Succeeded)
+                if (ModelState.IsValid)
                 {
-                    return BadRequest();
+                    var loginResult = await _signInManager.PasswordSignInAsync(loginDto.UserName, loginDto.Password, true, false);
+                    if (loginResult.Succeeded)
+                    {
+                        var token = JwtGenerator.Generate(user, _configuration);
+                        return Ok("Giriş işlemi başarılı : " + "  //  " + token);
+                    }
+                    else
+                    {
+                        user.AccessFailedCount++;
+                        _unitOfWork.Complete();
+                        return BadRequest();
+                    }
                 }
-                var user = await _userManager.FindByNameAsync(loginDto.UserName);
-                var token = JwtGenerator.Generate(user, _configuration);
-                return Ok(token);
+                return BadRequest(ModelState);
             }
-            return BadRequest(ModelState);
+            else
+            {
+                user.LockoutEnabled = true;
+                user.LockoutEnd = DateTime.Now.AddMinutes(2);
+                user.AccessFailedCount = 0;
+                Mail mail = _unitOfWork.MailService.GetMail(user.Email);
+                mail.EmailStatus = EmailStatus.BlockMail;
+                await _unitOfWork.MailService.AddMail(mail);
+                _unitOfWork.Complete();
+                return BadRequest("This Account locked out for 3 days");
+            }
+
+
 
         }
 

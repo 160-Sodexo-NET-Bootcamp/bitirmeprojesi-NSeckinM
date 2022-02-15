@@ -79,7 +79,9 @@ namespace WebAPI
                     ValidAudience = Configuration.GetSection("Jwt")["Audience"],
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = signingKey,
-                    ValidateLifetime = true
+                    ValidateLifetime = true,
+                    RequireExpirationTime =true,
+
                 };
             });
 
@@ -123,7 +125,7 @@ namespace WebAPI
                 endpoints.MapControllers();
             });
 
-            RecurringJob.AddOrUpdate<AutoMailSender>(x => x.SendMail(), Cron.MinuteInterval(2));
+            //RecurringJob.AddOrUpdate<AutoMailSender>(x => x.SendWelcomeMail(), Cron.MinuteInterval(2));
 
 
 

@@ -1,38 +1,38 @@
 ﻿using ApplicationCore.Entities;
+using ApplicationCore.Enum;
 using ApplicationCore.Interfaces.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Hangfire;
-using System.Net.Mail;
 using System.Net;
-using ApplicationCore.Enum;
+using System.Net.Mail;
+using System.Threading.Tasks;
 
 namespace WebAPI.HangFireJobs
 {
-    public class AutoMailSender
+    public class AutoMailSender2
     {
+
         private readonly IUnitOfWork _unitOfWork;
 
-        public AutoMailSender(IUnitOfWork unitOfWork)
+        public AutoMailSender2(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
         public async Task SendWelcomeMail()
         {
-            List<Mail> Welcomemails = await _unitOfWork.MailService.GetWelcomeMail();
-           // List<Mail> Blockmails = await _unitOfWork.MailService.GetBlockMail();
+            //List<Mail> Welcomemails = await _unitOfWork.MailService.GetWelcomeMail();
+            List<Mail> Blockmails = await _unitOfWork.MailService.GetBlockMail();
 
-            foreach (var item in Welcomemails)
+            foreach (var item in Blockmails)
             {
                 if (item.CoutOfTry < 5)
                 {
                     string sender = "seckinmantar@gmail.com";//kullanıcı adı
                     string to = item.EmailAdress;
                     string subject = "Welcome";
-                    string body = "Dear User, \n" + "we are happy to see you among us";
+                    string body = "Dear User, \n" + "This Account locked out for 3 days due to 3 times wrongs login attempts";
                     MailMessage posta = new MailMessage(sender, to, subject, body);
                     posta.DeliveryNotificationOptions = System.Net.Mail.DeliveryNotificationOptions.OnSuccess;
                     using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))//gönderici maili
@@ -60,4 +60,9 @@ namespace WebAPI.HangFireJobs
             }
         }
     }
+
+
+
+
 }
+

@@ -9,10 +9,12 @@ namespace ApplicationCore.Interfaces.Services
 {
     public interface IMailService
     {
+        
+        Task AddMail(Mail mail);
+        Mail GetMail(string mail);
 
-        Task AddMail(string mail);
-
-        Task<List<Mail>> GetSpecificMail();
+        Task<List<Mail>> GetWelcomeMail();
+        Task<List<Mail>> GetBlockMail();
 
     }
 }

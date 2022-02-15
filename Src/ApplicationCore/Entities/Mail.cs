@@ -12,7 +12,7 @@ namespace ApplicationCore.Entities
     {
 
         public string EmailAdress { get; set; }
-        public EmailStatus EmailStatus { get; set; }
+        public EmailStatus EmailStatus { get; set; } = EmailStatus.WelcomeMail;
         public int CoutOfTry { get; set; } = 0;
         public DateTime Creationtime { get; set; } = DateTime.Now;
 

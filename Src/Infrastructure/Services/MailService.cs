@@ -23,24 +23,27 @@ namespace Infrastructure.Services
         }
 
 
-        public Task AddMail(string mail)
+        public Task AddMail(Mail mail)
         {
-
-            Mail mail1 = new()
-            {
-                EmailAdress = mail,
-                 EmailStatus = EmailStatus.WelcomeMail,
-            };
-
-            _mailRepository.AddAsync(mail1);
-            return Task.FromResult(mail1);
-
+            _mailRepository.AddAsync(mail);
+            return Task.FromResult(mail);
+        }
+        public Mail GetMail(string mail)
+        {
+            Mail forblockmail = _dbContext.Mails.FirstOrDefault(x => x.EmailAdress == mail);
+            return forblockmail;
         }
 
-        public async Task<List<Mail>> GetSpecificMail()
+        public async Task<List<Mail>> GetBlockMail()
+        {
+            List<Mail> mails = await _dbContext.Mails.Where(x => x.EmailStatus == EmailStatus.BlockMail && x.Creationtime.Date == DateTime.Today).ToListAsync();
+
+            return mails;
+        }
+
+        public async Task<List<Mail>> GetWelcomeMail()
         {
             //https://localhost:44330/hangfire/recurring
-            //.Where(x => x.EmailStatus == EmailStatus.WelcomeMail && x.Creationtime == DateTime.Now)
             List<Mail> mails = await _dbContext.Mails.Where(x => x.EmailStatus == EmailStatus.WelcomeMail && x.Creationtime.Date == DateTime.Today).ToListAsync();
 
             return mails;
