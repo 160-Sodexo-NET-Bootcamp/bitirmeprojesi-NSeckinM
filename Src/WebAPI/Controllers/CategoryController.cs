@@ -20,15 +20,22 @@ namespace WebAPI.Controllers
             _unitOfWork = unitOfWork;
         }
 
+        //[Authorize]
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> Get()
         {
             return Ok(await _unitOfWork.CategoryService.GetAllCategory());
         }
 
+        [Authorize]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            return Ok(await _unitOfWork.CategoryService.GetByIdCategory(id));
+        }
+
+        //[Authorize(Roles = "admin")]
         [HttpPost]
-        [Authorize(Roles = "admin")]
         public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDto categoryDto)
         {
 
@@ -43,8 +50,8 @@ namespace WebAPI.Controllers
             return Ok();
         }
 
+        //[Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
-        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
             await _unitOfWork.CategoryService.DeleteCategory(id);

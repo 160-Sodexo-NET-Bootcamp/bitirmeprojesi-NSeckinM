@@ -12,6 +12,8 @@ namespace ApplicationCore.Interfaces.Services
 
         Task AddCategory(string categoryName);
 
+        Task<Category> GetByIdCategory(int id);
+
         Task DeleteCategory(int categoryId);
 
         Task<List<Category>> GetAllCategory();

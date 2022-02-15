@@ -28,9 +28,9 @@ namespace WebAPI.Controllers
             return Ok(await _unitOfWork.ColorService.GetAllColor());
         }
 
-        [HttpPost]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> CreateBrand([FromBody] CreateColorDto ColorDto)
+        [HttpPost]
+        public async Task<IActionResult> CreateColor([FromBody] CreateColorDto ColorDto)
         {
 
             if (!ModelState.IsValid)

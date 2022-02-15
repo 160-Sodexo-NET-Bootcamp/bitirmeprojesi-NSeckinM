@@ -22,14 +22,14 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> Get()
         {
             return Ok(await _unitOfWork.ConditionsOfProductService.GetAllConditions());
         }
 
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         public async Task<IActionResult> CreateCondition([FromBody] CreateConditionDto conditionDto)
         {
             if (!ModelState.IsValid)

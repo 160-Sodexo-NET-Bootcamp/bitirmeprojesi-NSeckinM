@@ -1,6 +1,7 @@
 ﻿using ApplicationCore.Entities;
 using ApplicationCore.Interfaces.Repositories;
 using ApplicationCore.Interfaces.Services;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,12 @@ namespace Infrastructure.Services
 {
     public class CategoryService : ICategoryService
     {
+        private readonly ApplicationDbContext _dbContext;
         private readonly IAsyncRepository<Category> _categoryRepository;
 
-        public CategoryService(IAsyncRepository<Category> categoryRepository)
+        public CategoryService(ApplicationDbContext dbContext,  IAsyncRepository<Category> categoryRepository)
         {
+            _dbContext = dbContext;
             _categoryRepository = categoryRepository;
         }
 
@@ -38,6 +41,12 @@ namespace Infrastructure.Services
         {
             List<Category> categories = await _categoryRepository.GetAllAsync();
             return categories;
+        }
+
+        public Task<Category> GetByIdCategory(int id)
+        {
+            Category category = _dbContext.Categories.Include(x => x.Products).FirstOrDefault(x => x.Id.Equals(id));
+            return Task.FromResult(category);
         }
     }
 }

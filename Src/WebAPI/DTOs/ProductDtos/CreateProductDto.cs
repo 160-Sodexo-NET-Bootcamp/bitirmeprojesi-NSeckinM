@@ -1,15 +1,15 @@
-﻿using ApplicationCore.Common;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace ApplicationCore.Entities
+namespace WebAPI.DTOs.ProductDtos
 {
-    public class Product : BaseEntity
+    public class CreateProductDto
     {
-        public string UserId { get; set; }
-
         public string Name { get; set; }
 
-        public string  Description { get; set; }
+        public string Description { get; set; }
 
         public bool IsOfferable { get; set; } = false;
 
@@ -19,23 +19,15 @@ namespace ApplicationCore.Entities
 
         public decimal Price { get; set; }
 
-
-        //Nav
-
         public int? BrandId { get; set; }
-        public Brand Brand { get; set; }
 
         public int? ColorId { get; set; }
-        public Color Color { get; set; }
 
         public int CategoryId { get; set; }
-        public Category Category { get; set; }
 
         public int ConditionsOfProductId { get; set; }
-        public ConditionsOfProduct ConditionsOfProduct { get; set; }
 
 
-        public List<Offer> Offers { get; set; }
 
 
     }
