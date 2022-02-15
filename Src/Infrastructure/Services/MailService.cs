@@ -30,13 +30,13 @@ namespace Infrastructure.Services
         }
         public Mail GetMail(string mail)
         {
-            Mail forblockmail = _dbContext.Mails.FirstOrDefault(x => x.EmailAdress == mail);
+            Mail forblockmail = _dbContext.Mails.FirstOrDefault(x => x.EmailAdress.Equals(mail));
             return forblockmail;
         }
 
         public async Task<List<Mail>> GetBlockMail()
         {
-            List<Mail> mails = await _dbContext.Mails.Where(x => x.EmailStatus == EmailStatus.BlockMail && x.Creationtime.Date == DateTime.Today).ToListAsync();
+            List<Mail> mails = await _dbContext.Mails.Where(x => x.EmailStatus == EmailStatus.BlockMail).ToListAsync();
 
             return mails;
         }

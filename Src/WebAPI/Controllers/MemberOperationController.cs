@@ -77,7 +77,10 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
             var user = await _userManager.FindByNameAsync(loginDto.UserName);
-
+            if (user == null)
+            {
+                return BadRequest("There is no registered user in system with this email Please try with valid email");
+            }
             if (user.AccessFailedCount < 3)
             {
                 if (ModelState.IsValid)
@@ -104,12 +107,9 @@ namespace WebAPI.Controllers
                 user.AccessFailedCount = 0;
                 Mail mail = _unitOfWork.MailService.GetMail(user.Email);
                 mail.EmailStatus = EmailStatus.BlockMail;
-                await _unitOfWork.MailService.AddMail(mail);
                 _unitOfWork.Complete();
                 return BadRequest("This Account locked out for 3 days");
             }
-
-
 
         }
 

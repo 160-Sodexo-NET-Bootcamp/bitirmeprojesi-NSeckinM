@@ -125,7 +125,8 @@ namespace WebAPI
                 endpoints.MapControllers();
             });
 
-            //RecurringJob.AddOrUpdate<AutoMailSender>(x => x.SendWelcomeMail(), Cron.MinuteInterval(2));
+            RecurringJob.AddOrUpdate<AutoMailSender>(x => x.SendWelcomeMail(), Cron.MinuteInterval(2));
+            RecurringJob.AddOrUpdate<AutoMailSender2>(x => x.SendBlockMail(), Cron.MinuteInterval(2));
 
 
 

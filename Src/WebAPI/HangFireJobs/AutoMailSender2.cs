@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using Hangfire;
 
 namespace WebAPI.HangFireJobs
 {
@@ -20,7 +21,7 @@ namespace WebAPI.HangFireJobs
             _unitOfWork = unitOfWork;
         }
 
-        public async Task SendWelcomeMail()
+        public async Task SendBlockMail()
         {
             //List<Mail> Welcomemails = await _unitOfWork.MailService.GetWelcomeMail();
             List<Mail> Blockmails = await _unitOfWork.MailService.GetBlockMail();
@@ -37,7 +38,7 @@ namespace WebAPI.HangFireJobs
                     posta.DeliveryNotificationOptions = System.Net.Mail.DeliveryNotificationOptions.OnSuccess;
                     using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))//gönderici maili
                     {
-                        smtp.Credentials = new NetworkCredential("seckinmantar@gmail.com", "*********");
+                        smtp.Credentials = new NetworkCredential("seckinmantar@gmail.com", "******");//yıldız yerine parola girilmeli
                         smtp.EnableSsl = true;
                         try
                         {
