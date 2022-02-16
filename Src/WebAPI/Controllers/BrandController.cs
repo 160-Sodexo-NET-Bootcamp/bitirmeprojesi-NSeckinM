@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using WebAPI.DTOs.BrandDtos;
 
@@ -30,27 +31,37 @@ namespace WebAPI.Controllers
             return Ok(await _unitOfWork.BrandService.GetAllBrands());
         }
         [HttpPost]
-        [Authorize(Roles = "admin")]
+        [Authorize]
         public async Task<IActionResult> CreateBrand([FromBody] CreateBrandDto brandDto)
         {
-
-            if (!ModelState.IsValid)
+            string Roletype = User.FindFirstValue("Roletype");
+            if (Roletype == "False")
             {
-                return BadRequest("Invalid data.");
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest("Invalid data.");
+                }
+
+                await _unitOfWork.BrandService.AddBrand(brandDto.BrandName);
+                _unitOfWork.Complete();
+
+                return Ok();
             }
+            return Unauthorized();
 
-            await _unitOfWork.BrandService.AddBrand(brandDto.BrandName);
-            _unitOfWork.Complete();
-
-            return Ok();
         }
         [HttpDelete("{id}")]
-        [Authorize(Roles = "admin")]
+        [Authorize]
         public async Task<IActionResult> DeleteBrand(int id)
         {
-           await _unitOfWork.BrandService.DeleteBrand(id);
-           _unitOfWork.Complete();
-            return NoContent();
+            string Roletype = User.FindFirstValue("Roletype");
+            if (Roletype == "False")
+            {
+                await _unitOfWork.BrandService.DeleteBrand(id);
+                _unitOfWork.Complete();
+                return NoContent();
+            }
+            return Unauthorized();
         }
 
 

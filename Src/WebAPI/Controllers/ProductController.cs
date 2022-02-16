@@ -15,7 +15,7 @@ using WebAPI.DTOs.ProductDtos;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/Products")]
     [ApiController]
     public class ProductController : ControllerBase
     {
@@ -31,38 +31,38 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> Get()
         {
             return Ok(await _unitOfWork.ProductService.GetAllProduct());
         }
 
         [HttpGet("{id}")]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> GetById(int id)
         {
             return Ok(await _unitOfWork.ProductService.GetById(id));
         }
 
+            //string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+        [Authorize]
         [HttpPost]
-       // [Authorize(Roles = "admin")]
         public async Task<IActionResult> CreateProduct([FromBody] CreateProductDto pDto)
         {
-
             if (!ModelState.IsValid)
             {
                 return BadRequest("Invalid data.");
             }
-            string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string userId = User.FindFirstValue("Id");
             await _unitOfWork.ProductService.AddProduct(userId,pDto.Name,pDto.Description,pDto.Price,pDto.ColorId,pDto.ConditionsOfProductId,pDto.CategoryId,pDto.BrandId,pDto.IsOfferable,pDto.IsSold,pDto.PictureUri);
             _unitOfWork.Complete();
 
             return Ok();
         }
 
-        [HttpPost]
+        [Authorize]
         [Route("Update")]
-        // [Authorize(Roles = "admin")]
+        [HttpPost]
         public async Task<IActionResult> UpdateProduct([FromBody] UpdateProductDto upDto)
         {
 
@@ -76,8 +76,8 @@ namespace WebAPI.Controllers
             return Ok();
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
-        //[Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
             await _unitOfWork.ProductService.DeleteProduct(id);

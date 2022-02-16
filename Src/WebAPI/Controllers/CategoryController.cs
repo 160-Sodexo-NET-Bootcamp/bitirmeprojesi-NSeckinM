@@ -5,8 +5,17 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using WebAPI.DTOs.CategoryDtos;
+
+/*            string Roletype = User.FindFirstValue("Roletype");
+            if (Roletype == "False")
+            {
+
+            }
+            return Unauthorized();
+*/
 
 namespace WebAPI.Controllers
 {
@@ -20,7 +29,7 @@ namespace WebAPI.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -39,24 +48,35 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDto categoryDto)
         {
 
-            if (!ModelState.IsValid)
+            string Roletype = User.FindFirstValue("Roletype");
+            if (Roletype == "False")
             {
-                return BadRequest("Invalid data.");
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest("Invalid data.");
+                }
+
+                await _unitOfWork.CategoryService.AddCategory(categoryDto.CategoryName);
+                _unitOfWork.Complete();
+
+                return Ok();
             }
+            return Unauthorized();
 
-            await _unitOfWork.CategoryService.AddCategory(categoryDto.CategoryName);
-            _unitOfWork.Complete();
-
-            return Ok();
         }
 
-        //[Authorize(Roles = "admin")]
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
-            await _unitOfWork.CategoryService.DeleteCategory(id);
-            _unitOfWork.Complete();
-            return NoContent();
+            string Roletype = User.FindFirstValue("Roletype");
+            if (Roletype == "False")
+            {
+                await _unitOfWork.CategoryService.DeleteCategory(id);
+                _unitOfWork.Complete();
+                return NoContent();
+            }
+            return Unauthorized();
         }
 
 
