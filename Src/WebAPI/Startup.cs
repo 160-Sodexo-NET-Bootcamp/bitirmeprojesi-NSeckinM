@@ -47,6 +47,7 @@ namespace WebAPI
             //Database Connection
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ApplicationDbContext")));
 
+            //HangFire Database Connection
             services.AddHangfire(x => x.UseSqlServerStorage(Configuration.GetConnectionString("HangfireConnection")));
             services.AddHangfireServer();
 
@@ -61,7 +62,7 @@ namespace WebAPI
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPI", Version = "v1" });
             });
-
+            // For Json Serialization
             services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
 
             //Jwt
@@ -84,10 +85,8 @@ namespace WebAPI
                     IssuerSigningKey = signingKey,
                     ValidateLifetime = true,
                     RequireExpirationTime =true,
-
                 };
             });
-
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireDigit = true;
@@ -97,7 +96,6 @@ namespace WebAPI
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequiredUniqueChars = 1;
             });
-
 
         }
 
@@ -123,11 +121,10 @@ namespace WebAPI
                 endpoints.MapControllers();
             });
 
+
+            // HangFire Invoke
             RecurringJob.AddOrUpdate<AutoMailSender>(x => x.SendWelcomeMail(), Cron.MinuteInterval(2));
             RecurringJob.AddOrUpdate<AutoMailSender2>(x => x.SendBlockMail(), Cron.MinuteInterval(2));
-
-
-
 
         }
     }

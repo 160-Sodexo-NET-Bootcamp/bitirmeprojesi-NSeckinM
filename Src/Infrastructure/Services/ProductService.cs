@@ -53,6 +53,12 @@ namespace Infrastructure.Services
             return products;
         }
 
+        public async Task<List<Product>> GetAllBuyableProduct()
+        {
+            List<Product> products = _dbContext.Products.Where(x => x.IsSold == false).ToList();
+            return  products;
+        }
+
         public async Task<Product> GetById(int id)
         {
             Product product = await _productRepository.GetByIdAsync(id);
@@ -74,6 +80,21 @@ namespace Infrastructure.Services
             product.IsSold = issold;
             product.PictureUri = picUri;
              _productRepository.UpdateAsync(product);
+        }
+
+        public async Task<bool> UpdateProduct(int productId, decimal price)
+        {
+            Product product = await _productRepository.GetByIdAsync(productId);
+
+            if (product.Price <= price && product.IsSold == false)
+            {
+                product.IsSold = true;
+               await _productRepository.UpdateAsync(product);
+                return true;
+            }
+
+            return false;
+            
         }
     }
 }

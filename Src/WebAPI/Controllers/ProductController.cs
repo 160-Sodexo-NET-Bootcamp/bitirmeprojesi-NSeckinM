@@ -1,4 +1,5 @@
-﻿using ApplicationCore.Interfaces.UnitOfWork;
+﻿using ApplicationCore.Entities;
+using ApplicationCore.Interfaces.UnitOfWork;
 using IdentityModel;
 using Infrastructure;
 using Microsoft.AspNetCore.Authorization;
@@ -23,7 +24,7 @@ namespace WebAPI.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly IUnitOfWork _unitOfWork;
 
-        public ProductController(UserManager<User> userManager, SignInManager<User> signInManager, IUnitOfWork unitOfWork )
+        public ProductController(UserManager<User> userManager, SignInManager<User> signInManager, IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -32,9 +33,23 @@ namespace WebAPI.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetAll()
         {
-            return Ok(await _unitOfWork.ProductService.GetAllProduct());
+            string Roletype = User.FindFirstValue("Roletype");
+            if (Roletype == "False")
+            {
+                return Ok(await _unitOfWork.ProductService.GetAllProduct());
+            }
+            return Unauthorized();
+
+        }
+
+        [HttpGet]
+        [Authorize]
+        [Route("OnSale")]
+        public async Task<IActionResult> GetAllBuyableProduct()
+        {
+                return Ok(await _unitOfWork.ProductService.GetAllBuyableProduct());
         }
 
         [HttpGet("{id}")]
@@ -44,7 +59,6 @@ namespace WebAPI.Controllers
             return Ok(await _unitOfWork.ProductService.GetById(id));
         }
 
-            //string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateProduct([FromBody] CreateProductDto pDto)
@@ -54,7 +68,7 @@ namespace WebAPI.Controllers
                 return BadRequest("Invalid data.");
             }
             string userId = User.FindFirstValue("Id");
-            await _unitOfWork.ProductService.AddProduct(userId,pDto.Name,pDto.Description,pDto.Price,pDto.ColorId,pDto.ConditionsOfProductId,pDto.CategoryId,pDto.BrandId,pDto.IsOfferable,pDto.IsSold,pDto.PictureUri);
+            await _unitOfWork.ProductService.AddProduct(userId, pDto.Name, pDto.Description, pDto.Price, pDto.ColorId, pDto.ConditionsOfProductId, pDto.CategoryId, pDto.BrandId, pDto.IsOfferable, pDto.IsSold, pDto.PictureUri);
             _unitOfWork.Complete();
 
             return Ok();
@@ -62,7 +76,7 @@ namespace WebAPI.Controllers
 
         [Authorize]
         [Route("Update")]
-        [HttpPost]
+        [HttpPut]
         public async Task<IActionResult> UpdateProduct([FromBody] UpdateProductDto upDto)
         {
 
@@ -83,6 +97,34 @@ namespace WebAPI.Controllers
             await _unitOfWork.ProductService.DeleteProduct(id);
             _unitOfWork.Complete();
             return NoContent();
+        }
+
+
+        [Authorize]
+        [Route("Buy")]
+        [HttpPut]
+        public async Task<IActionResult> BuyProduct([FromBody] BuyProductDto BuyDto)
+        {
+
+            string message1 = "Purchase operation is unsucces";
+            string message2 = "Purchase operation is succes";
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid data.");
+            }
+            bool result = await _unitOfWork.ProductService.UpdateProduct(BuyDto.ProductId, BuyDto.Price);
+
+            if (result)
+            {
+                return Ok(message2);
+                _unitOfWork.Complete();
+            }
+            else
+            {
+                return BadRequest(message1);
+            }
+
         }
 
 

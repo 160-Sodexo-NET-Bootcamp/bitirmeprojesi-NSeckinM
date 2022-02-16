@@ -9,11 +9,17 @@ namespace ApplicationCore.Entities
 {
     public class Offer : BaseEntity
     {
+        public Offer()
+        {
+            OfferedValue = Product.Price - (Product.Price * PercentageOfOffer) / 100;
+        }
         public string UserId { get; set; }
 
         public string StatusOfOffer { get; set; }
 
         public int PercentageOfOffer { get; set; }
+
+        public decimal OfferedValue { get; set; }
 
 
         //Nav
