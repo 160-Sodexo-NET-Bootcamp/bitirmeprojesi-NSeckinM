@@ -65,24 +65,25 @@ namespace Infrastructure.Services
             return product;
         }
 
-        public async Task UpdateProduct(int productId, string productName, string description, decimal price, int? colorId, int conditionId, int catId, int? brandId, bool offerable, bool issold, string picUri)
+        public async Task UpdateProduct( int productId, string productName, string description, decimal price, int? colorId, int conditionId, int catId, int? brandId, bool offerable, bool issold, string picUri)
         {
             Product product = await _productRepository.GetByIdAsync(productId);
 
-            product.Name = productName;
-            product.Description = description;
-            product.Price = price;
-            product.ColorId = colorId;
-            product.ConditionsOfProductId = conditionId;
-            product.CategoryId = catId;
-            product.BrandId = brandId;
-            product.IsOfferable = offerable;
-            product.IsSold = issold;
-            product.PictureUri = picUri;
-             _productRepository.UpdateAsync(product);
+                product.Name = productName;
+                product.Description = description;
+                product.Price = price;
+                product.ColorId = colorId;
+                product.ConditionsOfProductId = conditionId;
+                product.CategoryId = catId;
+                product.BrandId = brandId;
+                product.IsOfferable = offerable;
+                product.IsSold = issold;
+                product.PictureUri = picUri;
+                _productRepository.UpdateAsync(product);
+            
         }
 
-        public async Task<bool> UpdateProduct(int productId, decimal price)
+        public async Task<bool> BuyProduct(int productId, decimal price)
         {
             Product product = await _productRepository.GetByIdAsync(productId);
 

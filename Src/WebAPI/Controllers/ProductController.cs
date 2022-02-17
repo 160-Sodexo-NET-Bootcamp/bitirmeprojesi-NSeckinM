@@ -84,10 +84,18 @@ namespace WebAPI.Controllers
             {
                 return BadRequest("Invalid data.");
             }
-            await _unitOfWork.ProductService.UpdateProduct(upDto.Id, upDto.Name, upDto.Description, upDto.Price, upDto.ColorId, upDto.ConditionsOfProductId, upDto.CategoryId, upDto.BrandId, upDto.IsOfferable, upDto.IsSold, upDto.PictureUri);
-            _unitOfWork.Complete();
+            string userId = User.FindFirstValue("Id");
+            Product product =await _unitOfWork.ProductService.GetById(upDto.Id);
 
-            return Ok();
+            if (product.UserId == userId)
+            {
+                await _unitOfWork.ProductService.UpdateProduct(upDto.Id, upDto.Name, upDto.Description, upDto.Price, upDto.ColorId, upDto.ConditionsOfProductId, upDto.CategoryId, upDto.BrandId, upDto.IsOfferable, upDto.IsSold, upDto.PictureUri);
+                _unitOfWork.Complete();
+
+                return Ok();
+            }
+            return BadRequest("You Do not have any product with this product ıd");
+
         }
 
         [Authorize]
@@ -113,20 +121,17 @@ namespace WebAPI.Controllers
             {
                 return BadRequest("Invalid data.");
             }
-            bool result = await _unitOfWork.ProductService.UpdateProduct(BuyDto.ProductId, BuyDto.Price);
+            bool result = await _unitOfWork.ProductService.BuyProduct(BuyDto.ProductId, BuyDto.Price);
 
             if (result)
             {
-                return Ok(message2);
                 _unitOfWork.Complete();
+                return Ok(message2);
             }
             else
             {
                 return BadRequest(message1);
             }
-
         }
-
-
     }
 }

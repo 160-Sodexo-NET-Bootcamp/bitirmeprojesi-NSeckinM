@@ -11,7 +11,7 @@ namespace ApplicationCore.Entities
     {
         public Offer()
         {
-            OfferedValue = Product.Price - (Product.Price * PercentageOfOffer) / 100;
+
         }
         public string UserId { get; set; }
 
@@ -25,6 +25,7 @@ namespace ApplicationCore.Entities
         //Nav
         public int ProductId { get; set; }
         public Product Product { get; set; }
+
 
 
     }

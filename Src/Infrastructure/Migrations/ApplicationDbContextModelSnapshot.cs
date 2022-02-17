@@ -110,6 +110,9 @@ namespace Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<decimal>("OfferedValue")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<int>("PercentageOfOffer")
                         .HasColumnType("int");
 

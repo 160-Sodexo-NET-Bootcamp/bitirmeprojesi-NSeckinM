@@ -102,6 +102,22 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Mails",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EmailAdress = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmailStatus = table.Column<int>(type: "int", nullable: false),
+                    CoutOfTry = table.Column<int>(type: "int", nullable: false),
+                    Creationtime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Mails", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -220,8 +236,8 @@ namespace Infrastructure.Migrations
                     IsSold = table.Column<bool>(type: "bit", nullable: false),
                     PictureUri = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    BrandId = table.Column<int>(type: "int", nullable: false),
-                    ColorId = table.Column<int>(type: "int", nullable: false),
+                    BrandId = table.Column<int>(type: "int", nullable: true),
+                    ColorId = table.Column<int>(type: "int", nullable: true),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     ConditionsOfProductId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -233,7 +249,7 @@ namespace Infrastructure.Migrations
                         column: x => x.BrandId,
                         principalTable: "Brands",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Products_Categories_CategoryId",
                         column: x => x.CategoryId,
@@ -245,7 +261,7 @@ namespace Infrastructure.Migrations
                         column: x => x.ColorId,
                         principalTable: "Colors",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Products_ConditionsOfProducts_ConditionsOfProductId",
                         column: x => x.ConditionsOfProductId,
@@ -263,6 +279,7 @@ namespace Infrastructure.Migrations
                     UserId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StatusOfOffer = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PercentageOfOffer = table.Column<int>(type: "int", nullable: false),
+                    OfferedValue = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -357,6 +374,9 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Mails");
 
             migrationBuilder.DropTable(
                 name: "Offers");

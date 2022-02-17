@@ -21,13 +21,15 @@ namespace Infrastructure.Services
             _offerRepository = offerRepository;
         }
 
-        public Task AddOffer(string userId, int percentageOfOffer, int productId)
+        public Task AddOffer(string userId, int percentageOfOffer, decimal OfferedValue, int productId)
         {
+
             Offer offer = new()
             {
                 UserId = userId,
                 ProductId = productId,
                 PercentageOfOffer = percentageOfOffer,
+                OfferedValue = OfferedValue
             };
             _offerRepository.AddAsync(offer);
             return Task.FromResult(offer);
@@ -58,7 +60,10 @@ namespace Infrastructure.Services
 
         public async Task<Offer> GetByIdOffer(int id)
         {
-            Offer offer = await _offerRepository.GetByIdAsync(id);
+            //Offer offer = await _offerRepository.GetByIdAsync(id);
+
+            Offer offer = _dbContext.Offers.Include(x => x.Product).FirstOrDefault(x => x.Id == id);
+
             return offer;
         }
     }

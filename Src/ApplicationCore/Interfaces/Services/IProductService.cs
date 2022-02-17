@@ -14,7 +14,7 @@ namespace ApplicationCore.Interfaces.Services
         Task<Product> GetById(int id);
         Task DeleteProduct(int productId);
 
-        Task<bool>UpdateProduct(int productId, decimal price);
+        Task<bool>BuyProduct(int productId, decimal price);
         Task UpdateProduct(int productId , string productName, string description, decimal price, int? colorId, int conditionId, int catId, int? brandId, bool offerable, bool issold, string picUri);
 
         Task<List<Product>> GetAllProduct();

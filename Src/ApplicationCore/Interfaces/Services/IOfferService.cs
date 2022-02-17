@@ -10,7 +10,7 @@ namespace ApplicationCore.Interfaces.Services
     public interface IOfferService
     {
 
-        Task AddOffer(string userId, int percentageOfOffer, int productId);
+        Task AddOffer(string userId, int percentageOfOffer, decimal OfferedValue, int productId);
 
         Task DeleteOffer(int offerId);
 
