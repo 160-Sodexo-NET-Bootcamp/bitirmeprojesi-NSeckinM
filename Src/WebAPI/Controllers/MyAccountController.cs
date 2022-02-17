@@ -49,8 +49,12 @@ namespace WebAPI.Controllers
         [Route("ReplyOffer")]
         public async Task<IActionResult> ReplyOffer(ReplyOfferDto replyOfferDto)
         {
-            Offer offer = await _unitOfWork.OfferService.GetByIdOffer(replyOfferDto.OfferId);
-
+            string userId = User.FindFirstValue("Id");
+            Offer offer = await _unitOfWork.OfferService.GetByIdOffer(replyOfferDto.OfferId,userId);
+            if (offer == null)
+            {
+                return BadRequest("There is no any recived offer for your product");
+            }
             if (replyOfferDto.Reply == OfferStatus.Onayla)
             {
                 offer.StatusOfOffer = replyOfferDto.Reply.ToString();
@@ -74,7 +78,7 @@ namespace WebAPI.Controllers
             string userId = User.FindFirstValue("Id");
             Product product = await _unitOfWork.ProductService.GetById(sendOfferDto.ProductId);
             decimal offeredvalue = product.Price - ((product.Price * sendOfferDto.PercentageOfOffer) / 100);
-            if (product.IsOfferable)
+            if (product.IsOfferable && product.IsSold != true)
             {
                 await _unitOfWork.OfferService.AddOffer(userId, sendOfferDto.PercentageOfOffer, offeredvalue, sendOfferDto.ProductId);
                 _unitOfWork.Complete();

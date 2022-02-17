@@ -14,7 +14,7 @@ namespace ApplicationCore.Interfaces.Services
 
         Task DeleteOffer(int offerId);
 
-        Task<Offer> GetByIdOffer(int id);
+        Task<Offer> GetByIdOffer(int id, string userId);
 
         //Sadece Admin Sistemdeki bütün offerları görebilmeli
         Task<List<Offer>> GetAllOffer();

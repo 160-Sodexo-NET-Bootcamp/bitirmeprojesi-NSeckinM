@@ -58,11 +58,11 @@ namespace Infrastructure.Services
             return Task.FromResult(sendedoffers);
         }
 
-        public async Task<Offer> GetByIdOffer(int id)
+        public async Task<Offer> GetByIdOffer(int id, string userId)
         {
             //Offer offer = await _offerRepository.GetByIdAsync(id);
 
-            Offer offer = _dbContext.Offers.Include(x => x.Product).FirstOrDefault(x => x.Id == id);
+            Offer offer = _dbContext.Offers.Include(x => x.Product).Where(x => x.Product.UserId == userId).FirstOrDefault(x => x.Id == id);
 
             return offer;
         }

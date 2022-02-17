@@ -30,7 +30,7 @@ namespace WebAPI.HangFireJobs
             {
                 if (item.CoutOfTry < 5)
                 {
-                    string sender = "seckinmantar@gmail.com";//kullanıcı adı
+                    string sender = "yoneticisodexo@gmail.com";//kullanıcı adı
                     string to = item.EmailAdress;
                     string subject = "Welcome";
                     string body = "Dear User, \n" + "This Account locked out for 3 days due to 3 times wrongs login attempts";
@@ -38,7 +38,7 @@ namespace WebAPI.HangFireJobs
                     posta.DeliveryNotificationOptions = System.Net.Mail.DeliveryNotificationOptions.OnSuccess;
                     using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))//gönderici maili
                     {
-                        smtp.Credentials = new NetworkCredential("seckinmantar@gmail.com", "seckinmntr");//yıldız yerine parola girilmeli
+                        smtp.Credentials = new NetworkCredential("yoneticisodexo@gmail.com", "Sodexo123*");//yıldız yerine parola girilmeli
                         smtp.EnableSsl = true;
                         try
                         {

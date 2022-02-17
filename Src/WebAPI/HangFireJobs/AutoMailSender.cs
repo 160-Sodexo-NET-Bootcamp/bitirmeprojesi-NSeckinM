@@ -23,21 +23,20 @@ namespace WebAPI.HangFireJobs
         public async Task SendWelcomeMail()
         {
             List<Mail> Welcomemails = await _unitOfWork.MailService.GetWelcomeMail();
-           // List<Mail> Blockmails = await _unitOfWork.MailService.GetBlockMail();
 
             foreach (var item in Welcomemails)
             {
                 if (item.CoutOfTry < 5)
                 {
-                    string sender = "seckinmantar@gmail.com";//kullanıcı adı
+                    string sender = "yoneticisodexo@gmail.com";
                     string to = item.EmailAdress;
                     string subject = "Welcome";
                     string body = "Dear User, \n" + "we are happy to see you among us";
                     MailMessage posta = new MailMessage(sender, to, subject, body);
                     posta.DeliveryNotificationOptions = System.Net.Mail.DeliveryNotificationOptions.OnSuccess;
-                    using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))//gönderici maili
+                    using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
                     {
-                        smtp.Credentials = new NetworkCredential("seckinmantar@gmail.com", "seckinmntr");//yıldız yerine parola girilmeli
+                        smtp.Credentials = new NetworkCredential("yoneticisodexo@gmail.com", "Sodexo123*");
                         smtp.EnableSsl = true;
                         try
                         {

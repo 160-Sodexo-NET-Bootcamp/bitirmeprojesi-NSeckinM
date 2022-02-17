@@ -103,7 +103,7 @@ namespace WebAPI.Controllers
             else
             {
                 user.LockoutEnabled = true;
-                user.LockoutEnd = DateTime.Now.AddMinutes(2);
+                user.LockoutEnd = DateTime.Now.AddMinutes(5);
                 user.AccessFailedCount = 0;
                 Mail mail = _unitOfWork.MailService.GetMail(user.Email);
                 mail.EmailStatus = EmailStatus.BlockMail;
