@@ -18,6 +18,7 @@ namespace WebAPI.Controllers
 {
     [Route("api/v1/Products")]
     [ApiController]
+    [Authorize]
     public class ProductController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
@@ -32,7 +33,6 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> GetAll()
         {
             string Roletype = User.FindFirstValue("Roletype");
@@ -45,7 +45,6 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         [Route("OnSale")]
         public async Task<IActionResult> GetAllBuyableProduct()
         {
@@ -53,13 +52,11 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize]
         public async Task<IActionResult> GetById(int id)
         {
             return Ok(await _unitOfWork.ProductService.GetById(id));
         }
 
-        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateProduct([FromBody] CreateProductDto pDto)
         {
@@ -74,7 +71,6 @@ namespace WebAPI.Controllers
             return Ok();
         }
 
-        [Authorize]
         [Route("Update")]
         [HttpPut]
         public async Task<IActionResult> UpdateProduct([FromBody] UpdateProductDto upDto)
@@ -98,7 +94,6 @@ namespace WebAPI.Controllers
 
         }
 
-        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
@@ -108,7 +103,6 @@ namespace WebAPI.Controllers
         }
 
 
-        [Authorize]
         [Route("Buy")]
         [HttpPut]
         public async Task<IActionResult> BuyProduct([FromBody] BuyProductDto BuyDto)

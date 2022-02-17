@@ -13,6 +13,7 @@ namespace WebAPI.Controllers
 {
     [Route("api/v1/Colors")]
     [ApiController]
+    [Authorize]
     public class ColorController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -23,15 +24,12 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> Get()
         {
             return Ok(await _unitOfWork.ColorService.GetAllColor());
         }
 
-        //[Authorize(Roles = "admin")]
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> CreateColor([FromBody] CreateColorDto ColorDto)
         {
             string Roletype = User.FindFirstValue("Roletype");
@@ -49,7 +47,6 @@ namespace WebAPI.Controllers
             
         }
 
-        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteColor(int id)
         {

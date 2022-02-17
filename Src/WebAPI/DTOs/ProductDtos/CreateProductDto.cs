@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,9 +20,9 @@ namespace WebAPI.DTOs.ProductDtos
 
         public decimal Price { get; set; }
 
-        public int? BrandId { get; set; }
-
-        public int? ColorId { get; set; }
+        public int? BrandId { get; set; } = null;
+    
+        public int? ColorId { get; set; } = null;
 
         public int CategoryId { get; set; }
 

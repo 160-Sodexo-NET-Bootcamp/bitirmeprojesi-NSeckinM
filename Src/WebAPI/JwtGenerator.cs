@@ -30,7 +30,7 @@ namespace WebAPI
             var jwt = new JwtSecurityToken(
                signingCredentials: signingCredentials,
                claims: claims,
-               expires: DateTime.Now.AddMinutes(20),
+               expires: DateTime.Now.AddDays(1),
                audience: configuration.GetValue<string>("Jwt:Audience"),
                issuer: configuration.GetValue<string>("Jwt:Issuer")
                );

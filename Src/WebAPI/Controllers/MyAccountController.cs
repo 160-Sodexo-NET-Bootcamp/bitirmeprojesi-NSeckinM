@@ -15,6 +15,7 @@ namespace WebAPI.Controllers
 {
     [Route("api/v1/MyAccount")]
     [ApiController]
+    [Authorize]
     public class MyAccountController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -26,7 +27,6 @@ namespace WebAPI.Controllers
 
 
         [HttpGet]
-        [Authorize]
         [Route("SendedOffer")]
         public async Task<IActionResult> GetAllSendedOffers()
         {
@@ -35,7 +35,6 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         [Route("RecivedOffer")]
         public async Task<IActionResult> GetAllRecivedOffers()
         {
@@ -47,7 +46,6 @@ namespace WebAPI.Controllers
 
 
         [HttpPut]
-        [Authorize]
         [Route("ReplyOffer")]
         public async Task<IActionResult> ReplyOffer(ReplyOfferDto replyOfferDto)
         {
@@ -69,7 +67,6 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         [Route("SendOffer")]
         public async Task<IActionResult> SendOffer(SendOfferDto sendOfferDto)
         {
@@ -91,7 +88,6 @@ namespace WebAPI.Controllers
         }
 
         [HttpDelete]
-        [Authorize]
         [Route("WithdrawOffer")]
         public async Task<IActionResult> WithdrawOffer(WithdrawOfferDto WithdrawOfferDto)
         {

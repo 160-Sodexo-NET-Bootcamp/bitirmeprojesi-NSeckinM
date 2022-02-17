@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace Infrastructure.Services
 {
@@ -29,14 +30,13 @@ namespace Infrastructure.Services
 
         public async Task DeleteCondition(int conditionId)
         {
-            ConditionsOfProduct productsCondition =await _conditionRepository.GetByIdAsync(conditionId);
-            _conditionRepository.DeleteAsync(productsCondition);
-
+                ConditionsOfProduct productsCondition = await _conditionRepository.GetByIdAsync(conditionId);
+                _conditionRepository.DeleteAsync(productsCondition);
         }
 
         public async Task<List<ConditionsOfProduct>> GetAllConditions()
         {
-            List<ConditionsOfProduct> conditionsOfProducts =await _conditionRepository.GetAllAsync();
+            List<ConditionsOfProduct> conditionsOfProducts = await _conditionRepository.GetAllAsync();
             return conditionsOfProducts;
         }
     }

@@ -38,7 +38,7 @@ namespace WebAPI.HangFireJobs
                     posta.DeliveryNotificationOptions = System.Net.Mail.DeliveryNotificationOptions.OnSuccess;
                     using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))//gönderici maili
                     {
-                        smtp.Credentials = new NetworkCredential("seckinmantar@gmail.com", "******");//yıldız yerine parola girilmeli
+                        smtp.Credentials = new NetworkCredential("seckinmantar@gmail.com", "seckinmntr");//yıldız yerine parola girilmeli
                         smtp.EnableSsl = true;
                         try
                         {

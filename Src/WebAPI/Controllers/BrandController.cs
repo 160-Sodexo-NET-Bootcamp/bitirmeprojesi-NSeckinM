@@ -14,6 +14,7 @@ namespace WebAPI.Controllers
 {
     [Route("api/v1/Brands")]
     [ApiController]
+    [Authorize]
     public class BrandController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -25,13 +26,12 @@ namespace WebAPI.Controllers
 
         //You can use the HttpGet request to take all Brand list
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> Get()
         {
             return Ok(await _unitOfWork.BrandService.GetAllBrands());
         }
+
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> CreateBrand([FromBody] CreateBrandDto brandDto)
         {
             string Roletype = User.FindFirstValue("Roletype");
@@ -50,8 +50,8 @@ namespace WebAPI.Controllers
             return Unauthorized();
 
         }
+
         [HttpDelete("{id}")]
-        [Authorize]
         public async Task<IActionResult> DeleteBrand(int id)
         {
             string Roletype = User.FindFirstValue("Roletype");
