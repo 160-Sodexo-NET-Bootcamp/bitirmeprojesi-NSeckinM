@@ -48,5 +48,10 @@ namespace Infrastructure.Services
             Category category = _dbContext.Categories.Include(x => x.Products).FirstOrDefault(x => x.Id.Equals(id));
             return Task.FromResult(category);
         }
+
+        public async Task Update(Category category)
+        {
+           await _categoryRepository.UpdateAsync(category);
+        }
     }
 }

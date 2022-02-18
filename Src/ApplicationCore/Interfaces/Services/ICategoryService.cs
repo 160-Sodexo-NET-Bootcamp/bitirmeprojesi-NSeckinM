@@ -17,6 +17,7 @@ namespace ApplicationCore.Interfaces.Services
         Task DeleteCategory(int categoryId);
 
         Task<List<Category>> GetAllCategory();
+        Task Update(Category category);
 
     }
 }

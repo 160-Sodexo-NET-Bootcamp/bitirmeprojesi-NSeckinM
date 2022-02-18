@@ -20,6 +20,8 @@ namespace ApplicationCore.Interfaces.Services
         Task<List<Product>> GetAllProduct();
         Task<List<Product>> GetAllBuyableProduct();
 
+        Task DeletePicture(Product product);
+
         
     }
 }

@@ -1,4 +1,5 @@
-﻿using ApplicationCore.Interfaces.UnitOfWork;
+﻿using ApplicationCore.Entities;
+using ApplicationCore.Interfaces.UnitOfWork;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -73,6 +74,38 @@ namespace WebAPI.Controllers
                 await _unitOfWork.CategoryService.DeleteCategory(id);
                 _unitOfWork.Complete();
                 return NoContent();
+            }
+            return Unauthorized();
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCategory([FromRoute] int id, UpdateCategoryDto updateCategory)
+        {
+            string Roletype = User.FindFirstValue("Roletype");
+            if (Roletype == "False")
+            {
+                if (ModelState.IsValid)
+                {
+                    if (id != updateCategory.Id)
+                    {
+                        return BadRequest("Id information is not confirmed");
+                    }
+
+                   Category categoryDb = await _unitOfWork.CategoryService.GetByIdCategory(id);
+
+                    if (categoryDb == null)
+                    {
+                        return NotFound();
+                    }
+
+                    categoryDb.CategoryName = updateCategory.CategoryName;
+
+                     await _unitOfWork.CategoryService.Update(categoryDb);
+                    _unitOfWork.Complete();
+                    return Ok();
+                }
+
+                return BadRequest(ModelState);
             }
             return Unauthorized();
         }

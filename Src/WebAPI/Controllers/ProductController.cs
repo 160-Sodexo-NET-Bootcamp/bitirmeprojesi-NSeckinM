@@ -97,9 +97,27 @@ namespace WebAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
-            await _unitOfWork.ProductService.DeleteProduct(id);
-            _unitOfWork.Complete();
-            return NoContent();
+            int count = 0;
+            string userId = User.FindFirstValue("Id");
+
+            List<Product> usersProducts = await _unitOfWork.ProductService.GetAllProduct();
+            foreach (var item in usersProducts)
+            {
+                if (item.Id == id && item.UserId == userId)
+                {
+                    await _unitOfWork.ProductService.DeleteProduct(id);
+                    count++;
+                }
+            }
+            if (count == 0)
+            {
+                return BadRequest("You do not have any Product with this OfferId");
+            }
+            else
+            {
+                _unitOfWork.Complete();
+                return Ok();
+            }
         }
 
 
@@ -127,5 +145,37 @@ namespace WebAPI.Controllers
                 return BadRequest(message1);
             }
         }
+
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> DeletePictureOfProduct([FromRoute] int id, [FromBody] ProductFieldUpdateDto upDto)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid data.");
+            }
+            if (id != upDto.Id)
+            {
+                return BadRequest();
+            }
+            string userId = User.FindFirstValue("Id");
+            Product product = await _unitOfWork.ProductService.GetById(upDto.Id);
+
+            if (product.UserId == userId)
+            {
+
+                product.PictureUri = null;
+                await _unitOfWork.ProductService.DeletePicture(product);
+                _unitOfWork.Complete();
+
+                return Ok();
+            }
+            return BadRequest("You Do not have any product with this product ıd");
+
+        }
+
+
+
     }
 }

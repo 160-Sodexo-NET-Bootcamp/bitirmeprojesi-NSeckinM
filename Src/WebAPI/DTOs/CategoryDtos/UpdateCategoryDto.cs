@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace WebAPI.DTOs.CategoryDtos
 {
-    public class CreateCategoryDto
+    public class UpdateCategoryDto
     {
-        [Required]
+      
+        public int Id { get; set; }
+       
         public string CategoryName { get; set; }
+
     }
 }

@@ -63,29 +63,27 @@ namespace WebAPI.Controllers
                     var user1 = await _userManager.FindByNameAsync(user.UserName);
                     var token = JwtGenerator.Generate(user1, _configuration);
                     _unitOfWork.Complete();
-                    return Ok("Kayıt işlemi başarılı:" + token);
+                    return Ok("Kayıt işlemi başarılı : " + "  //  " + token);
                 }
             }
-            return BadRequest("Kayıt işlemi başarısız geçersiz bilgiler girdiniz.");
+            return BadRequest("Registration operation is unsuccessful due to Invalid information : " + ModelState);
 
         }
 
-        //string userEmail = User.FindFirst(ClaimTypes.Email).Value;
-        //string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
         [HttpPost]
         [Route("Login")]
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
-            var user = await _userManager.FindByNameAsync(loginDto.UserName);
-            if (user == null)
+            if (ModelState.IsValid)
             {
-                return BadRequest("There is no registered user in system with this email Please try with valid email");
-            }
-            if (user.AccessFailedCount < 3)
-            {
-                if (ModelState.IsValid)
+                var user = await _userManager.FindByNameAsync(loginDto.Email);
+                if (user == null)
                 {
-                    var loginResult = await _signInManager.PasswordSignInAsync(loginDto.UserName, loginDto.Password, true, false);
+                    return BadRequest("There is no registered user in system with this email Please try with valid email");
+                }
+                if (user.AccessFailedCount <= 2)
+                {
+                    var loginResult = await _signInManager.PasswordSignInAsync(loginDto.Email, loginDto.Password, true, false);
                     if (loginResult.Succeeded)
                     {
                         var token = JwtGenerator.Generate(user, _configuration);
@@ -95,24 +93,21 @@ namespace WebAPI.Controllers
                     {
                         user.AccessFailedCount++;
                         _unitOfWork.Complete();
-                        return BadRequest();
+                        return BadRequest("Giriş işlemi başarısız");
                     }
                 }
-                return BadRequest(ModelState);
+                else
+                {
+                    user.LockoutEnabled = true;
+                    user.LockoutEnd = DateTime.Now.AddMinutes(5);
+                    user.AccessFailedCount = 0;
+                    Mail mail = _unitOfWork.MailService.GetMail(user.Email);
+                    mail.EmailStatus = EmailStatus.BlockMail;
+                    _unitOfWork.Complete();
+                    return BadRequest("This Account locked out for 3 days");
+                }
             }
-            else
-            {
-                user.LockoutEnabled = true;
-                user.LockoutEnd = DateTime.Now.AddMinutes(5);
-                user.AccessFailedCount = 0;
-                Mail mail = _unitOfWork.MailService.GetMail(user.Email);
-                mail.EmailStatus = EmailStatus.BlockMail;
-                _unitOfWork.Complete();
-                return BadRequest("This Account locked out for 3 days");
-            }
-
+            return BadRequest(ModelState);
         }
-
-
     }
 }

@@ -75,19 +75,23 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> SendOffer(SendOfferDto sendOfferDto)
         {
             //Login olmuş user ın Id si Claimde tutulup token uzerinden alıyorum.
-            string userId = User.FindFirstValue("Id");
-            Product product = await _unitOfWork.ProductService.GetById(sendOfferDto.ProductId);
-            decimal offeredvalue = product.Price - ((product.Price * sendOfferDto.PercentageOfOffer) / 100);
-            if (product.IsOfferable && product.IsSold != true)
+            if (ModelState.IsValid)
             {
-                await _unitOfWork.OfferService.AddOffer(userId, sendOfferDto.PercentageOfOffer, offeredvalue, sendOfferDto.ProductId);
-                _unitOfWork.Complete();
-                return Ok("Your offer Created Succesfully");
+                string userId = User.FindFirstValue("Id");
+                Product product = await _unitOfWork.ProductService.GetById(sendOfferDto.ProductId);
+                decimal offeredvalue = product.Price - ((product.Price * sendOfferDto.PercentageOfOffer) / 100);
+                if (product.IsOfferable && product.IsSold != true)
+                {
+                    await _unitOfWork.OfferService.AddOffer(userId, sendOfferDto.PercentageOfOffer, offeredvalue, sendOfferDto.ProductId);
+                    _unitOfWork.Complete();
+                    return Ok("Your offer Created Succesfully");
 
+                }
+
+                return BadRequest("This product is not able to receive offers due to product owner preference or it's already sold");
             }
 
-            return BadRequest("This product is not able to receive offer due to product owner preference");
-
+            return BadRequest(ModelState);
 
         }
 

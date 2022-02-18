@@ -97,5 +97,10 @@ namespace Infrastructure.Services
             return false;
             
         }
+
+        public async Task DeletePicture(Product product)
+        {
+           await _productRepository.UpdateAsync(product);
+        }
     }
 }
