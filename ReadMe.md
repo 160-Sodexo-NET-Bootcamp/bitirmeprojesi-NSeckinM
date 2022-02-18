@@ -24,10 +24,10 @@ Kullanýcýlara sistemden aldýðý verilerle otomatik bilgi maili gönderen Smtp serv
 
 ## Databases
 #### SodexoFinalProjectDb
-<img src=""/>
+<img src="https://github.com/160-Sodexo-NET-Bootcamp/bitirmeprojesi-NSeckinM/blob/main/Src/ApplicationCore/Images/SodexoFinalDbDiagram.png"/>
 
 #### SodexoFinalProjectHF
-<img src=""/>
+<img src="https://github.com/160-Sodexo-NET-Bootcamp/bitirmeprojesi-NSeckinM/blob/main/Src/ApplicationCore/Images/SodexoFinalHangfireDiagram.png"/>
 
 ## Controllers
 ### <u>MemberOperationController</u>
@@ -43,17 +43,17 @@ sistemde kayýtlý olan Email adresine Hangfire job yardýmý ile Blocklanma bilgisi
 Eger herhangi bir mail gönderme iþlemi 5 denemede baþarýlý bir þekilde iletilemezse kullanýcý unReachable olarak baþka bir statuye çekilir
 
 #### Register
-<img src=""/>
+<img src="https://github.com/160-Sodexo-NET-Bootcamp/bitirmeprojesi-NSeckinM/blob/main/Src/ApplicationCore/Images/SodexoFinalRegisterOperation.png"/>
 
-<img src=""/>
+<img src="https://github.com/160-Sodexo-NET-Bootcamp/bitirmeprojesi-NSeckinM/blob/main/Src/ApplicationCore/Images/SodexoFinalWelcomeMail.png"/>
 
 #### Login
-<img src=""/>
+<img src="https://github.com/160-Sodexo-NET-Bootcamp/bitirmeprojesi-NSeckinM/blob/main/Src/ApplicationCore/Images/SodexoFinalAdminLogin.png"/>
 
 #### Block
-<img src=""/>
+<img src="https://github.com/160-Sodexo-NET-Bootcamp/bitirmeprojesi-NSeckinM/blob/main/Src/ApplicationCore/Images/SodexoFinalLoginBlock.png"/>
 
-<img src=""/>
+<img src="https://github.com/160-Sodexo-NET-Bootcamp/bitirmeprojesi-NSeckinM/blob/main/Src/ApplicationCore/Images/SodexoFinalBlockEmail.png"/>
 
 ### <u>ProductController</u>
 Bu Controllerda Sisteme kayýtlý login olmuþ ve Rolu sadece <b><u>admin</u></b> olan kullanýcýlar
@@ -65,11 +65,11 @@ Put/Product/Buy metodu ile de offer vermeden de ürünleri direk satýn alabilirler
 Kullanýcýlar sadece kendi oluþturduklarý ürünlerinin PictureUri lerini Patch/DeletePicture metodu ile sistemden silebilirler.
 
 #### Postman Result Of Product
-<img src=""/>
+<img src="https://github.com/160-Sodexo-NET-Bootcamp/bitirmeprojesi-NSeckinM/blob/main/Src/ApplicationCore/Images/SodexoFinalProductGet.png"/>
 
-<img src=""/>
+<img src="https://github.com/160-Sodexo-NET-Bootcamp/bitirmeprojesi-NSeckinM/blob/main/Src/ApplicationCore/Images/SodexoFinalProductUpdate.png"/>
 
-<img src=""/>
+<img src="https://github.com/160-Sodexo-NET-Bootcamp/bitirmeprojesi-NSeckinM/blob/main/Src/ApplicationCore/Images/SodexoFinalOnSaleProductGet.png"/>
 
 ### <u>MyAccountController</u>
 Bu Controllerda sisteme kayýtlý login olmuþ kullanýcýlar Get/MyAccount/SendedOffer metodu ile ürünlere gönderdikleri offerlarý,
@@ -80,9 +80,9 @@ Kullanýcýlar Post/MyAccount/SendOffer ile herhangi bir ürüne offer gönderebilir 
 
 #### Postman Result Of MyAccount Controller
 
-<img src=""/>
+<img src="https://github.com/160-Sodexo-NET-Bootcamp/bitirmeprojesi-NSeckinM/blob/main/Src/ApplicationCore/Images/MyAccount.png"/>
 
-<img src=""/>
+<img src="https://github.com/160-Sodexo-NET-Bootcamp/bitirmeprojesi-NSeckinM/blob/main/Src/ApplicationCore/Images/MyAccount2.png"/>
 
 ### <u>BrandController</u>
 Bu Controllerda sisteme kayýtlý login olmuþ bütün kullanýcýlar Get metodu ile bütün Brand bilgilerine ulaþabilir.<br>
@@ -90,7 +90,7 @@ Ama yeni bir brand oluþturma veya silme iþlemine eriþim hakký sadece Rolu admin 
 
 #### Postman Result Of Brand Controller
 
-<img src=""/>
+<img src="https://github.com/160-Sodexo-NET-Bootcamp/bitirmeprojesi-NSeckinM/blob/main/Src/ApplicationCore/Images/SodexoFinalBrandGet.png"/>
 
 ### <u>CategoryController</u>
 Bu Controllerda sisteme kayýtlý login olmuþ bütün kullanýcýlar Get metodu ile bütün kategorileri görüntüleyebilirler.
@@ -101,7 +101,9 @@ Sadece admin var olan bir kategoriyi Put/UpdateCategory metodu ile düzenleyebili
 
 #### Postman Result Of Category Controller
 
-<img src=""/>
+<img src="https://github.com/160-Sodexo-NET-Bootcamp/bitirmeprojesi-NSeckinM/blob/main/Src/ApplicationCore/Images/SodexoFinalCategoryGet.png"/>
+
+<img src="https://github.com/160-Sodexo-NET-Bootcamp/bitirmeprojesi-NSeckinM/blob/main/Src/ApplicationCore/Images/SodexoFinalCategoryGetWithProduct.png"/>
 
 ### <u>ColorController</u>
 Bu Controllerda sisteme kayýtlý login olmuþ bütün kullanýcýlar Get metodu ile bütün Color bilgilerine ulaþabilirler.<br>
@@ -109,7 +111,7 @@ Ama yeni bir Color oluþturma veya silme iþlemine eriþim hakký sadece Rolu admin 
 
 #### Postman Result Of Color Controller
 
-<img src=""/>
+<img src="https://github.com/160-Sodexo-NET-Bootcamp/bitirmeprojesi-NSeckinM/blob/main/Src/ApplicationCore/Images/SodexoFinalColorGet.png"/>
 
 ### <u>ConditionsOfProductController</u>
 Bu Controllerda sisteme kayýtlý login olmuþ bütün kullanýcýlar Get metodu ile bütün ConditionsOfProduct bilgilerine ulaþabilirler.<br>
@@ -117,24 +119,24 @@ Ama yeni bir ConditionsOfProduct oluþturma veya silme iþlemine eriþim hakký sade
 
 #### Postman Result Of ConditionsOfProduct Controller
 
-<img src=""/>
+<img src="https://github.com/160-Sodexo-NET-Bootcamp/bitirmeprojesi-NSeckinM/blob/main/Src/ApplicationCore/Images/SodexoFinalConditionGet.png"/>
 
 
 ### HangFire 
 
-<img src=""/>
+<img src="https://github.com/160-Sodexo-NET-Bootcamp/bitirmeprojesi-NSeckinM/blob/main/Src/ApplicationCore/Images/SodexoFinalHangFire1.png"/>
 
-<img src=""/>
+<img src="https://github.com/160-Sodexo-NET-Bootcamp/bitirmeprojesi-NSeckinM/blob/main/Src/ApplicationCore/Images/SodexoFinalHangFire2.png"/>
 
-<img src=""/>
+<img src="https://github.com/160-Sodexo-NET-Bootcamp/bitirmeprojesi-NSeckinM/blob/main/Src/ApplicationCore/Images/SodexoFinalHangFire3.png"/>
 
 ### Swagger
 
-<img src=""/>
+<img src="https://github.com/160-Sodexo-NET-Bootcamp/bitirmeprojesi-NSeckinM/blob/main/Src/ApplicationCore/Images/SodexoFinalSwagger.png"/>
 
-### DTOs
+### Some DTOs
 
-<img src=""/>
+<img src="https://github.com/160-Sodexo-NET-Bootcamp/bitirmeprojesi-NSeckinM/blob/main/Src/ApplicationCore/Images/Dtos.png"/>
 
 
 
