@@ -21,7 +21,7 @@ namespace WebAPI.DTOs.ProductDtos
         public bool IsSold { get; set; } = false;
 
         [Required]
-        [RegularExpression("/(https?:\\/\\/.*\\.(?:png|jpg|jpeg))/i")]
+        [RegularExpression("(https?:\\/\\/.*\\.(?:png|jpg))")]
         public string PictureUri { get; set; } // dosyanın yolunu tutacağız.
 
         [Required]

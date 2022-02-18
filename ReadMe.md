@@ -63,6 +63,9 @@ Get/Product/OnSale methodu ile sadece satýþta olan bütün ürünleri, GetById metod
 Kullanýcýlar Delete/Product/id ve Put/Product/update metodlarý ile sadece kendilerine ait olan ürünleri silebilir ve güncelleyebilirler.
 Put/Product/Buy metodu ile de offer vermeden de ürünleri direk satýn alabilirler.
 Kullanýcýlar sadece kendi oluþturduklarý ürünlerinin PictureUri lerini Patch/DeletePicture metodu ile sistemden silebilirler.
+Kullanýcý product oluþtururken PictureURI'sinin var olan RegEx validation a dikkat ederek ekleme yapmalýdýr.
+Uzantýsý jpg veya png olmalýdýr.
+Örnek PictureUri = "http://sub.domain.com/uploads/files/11-11-2011/345301-574-1182-393/2202.jpg"
 
 #### Postman Result Of Product
 <img src="https://github.com/160-Sodexo-NET-Bootcamp/bitirmeprojesi-NSeckinM/blob/main/Src/ApplicationCore/Images/SodexoFinalProductGet.png"/>
